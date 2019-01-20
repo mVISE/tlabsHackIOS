@@ -30,7 +30,20 @@ class StartScanViewController: UIViewController, AVCaptureMetadataOutputObjectsD
 
         // Do any additional setup after loading the view.
       
-      let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera], mediaType: AVMediaType.video, position: .back)
+      
+      AVCaptureDevice.requestAccess(for: .video, completionHandler: { (granted: Bool) in
+        if granted {
+        } else {
+          let message = "need cam access"
+          let alert = UIAlertController(title: "Failure", message: message, preferredStyle: .alert)
+          alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: { (_) in
+            self.navigationController?.popToRootViewController(animated: true)
+          }))
+          self.present(alert, animated: true, completion: nil)
+        }
+      })
+      
+      let deviceDiscoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInDualCamera, .builtInWideAngleCamera], mediaType: AVMediaType.video, position: .back)
       
       guard let captureDevice = deviceDiscoverySession.devices.first else {
         print("Failed to get the camera device")

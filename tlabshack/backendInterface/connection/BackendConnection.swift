@@ -79,7 +79,6 @@ class BackendConnection {
     var request = URLRequest(url: url)
     
     request.httpMethod = httpMethod
-//    request.setValue("application/json", forHTTPHeaderField: "Accept")
     
     if let headers = headers {
       for (headerField, headerValue) in headers {

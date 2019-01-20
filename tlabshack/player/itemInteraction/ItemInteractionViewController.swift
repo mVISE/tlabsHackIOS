@@ -85,6 +85,7 @@ extension ItemInteractionViewController: UITableViewDelegate, UITableViewDataSou
         alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: { (_) in
           self.navigationController?.popToRootViewController(animated: true)
         }))
+        self.present(alert, animated: true, completion: nil)
         return
       }
       if success {
