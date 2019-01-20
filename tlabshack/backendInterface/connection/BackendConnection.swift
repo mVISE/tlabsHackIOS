@@ -50,11 +50,11 @@ class BackendConnection {
     
     let string = answer.jsonStringFromObject()
     
-    let data = Data()
+    let data = string?.data(using: .utf8)
     
     self.performRequest(url: url, body: data) { (response, data, error) in
       guard let completionBlock = completionBlock else { return }
-      completionBlock(true, nil)
+      completionBlock(true, error)
     }
   }
   

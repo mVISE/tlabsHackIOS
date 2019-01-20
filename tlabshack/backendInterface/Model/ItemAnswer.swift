@@ -70,6 +70,8 @@ class ItemAnswer: NSObject {
       string.append("}")
     }
     
+    string.append(",\"Signature\":\"asdf\"")
+    
     string.append("}")
     return string
   }

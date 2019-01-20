@@ -70,34 +70,28 @@ extension ItemInteractionViewController: UITableViewDelegate, UITableViewDataSou
   }
   
   @IBAction func sendButtonAction(_ sender: Any) {
-    
-    
     var answers = [String: Bool]()
-    
-    for answerIndex in 0 ... tableView.numberOfRows(inSection: 0) {
-      let cell = tableView.cellForRow(at: IndexPath(row: answerIndex, section: 0)) as! QuestionTableViewCell
-      answers[cell.questionID!] = cell.questionSwitch.isOn
+    for answerIndex in 0 ... tableView.numberOfRows(inSection: 0) - 1 {
+      let cell = tableView.cellForRow(at: IndexPath(row: answerIndex, section: 0)) as? QuestionTableViewCell
+      answers[cell?.questionID! ?? "0"] = cell?.questionSwitch.isOn ?? false
     }
-    
     let answerItem = ItemAnswer.init(item: self.item, user: self.user, answers: answers, signature: "Signature")
     
     BackendConnection().postAnswer(answer: answerItem) { (success, error) in
+      if error != nil {
+        let message = "Fail"
+        let alert = UIAlertController(title: "Failure", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: { (_) in
+          self.navigationController?.popToRootViewController(animated: true)
+        }))
+        return
+      }
       if success {
         DispatchQueue.main.async {
-          self.dismiss(animated: true, completion: nil)
-        }
-        
-        if error != nil {
-          let message = "Fail"
-          let alert = UIAlertController(title: "Failure", message: message, preferredStyle: .alert)
-          alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel, handler: { (_) in
-            self.dismiss(animated: true, completion: nil)
-          }))
-          
+          self.navigationController?.popToRootViewController(animated: true)
         }
       }
     }
-    
   }
   
 }
