@@ -12,10 +12,10 @@ class BackendConnection {
 
   let baseURLString = "https://api.ch4sm.com/"
   
-  func getItemInfo(itemID: String,
+  func getItemInfo(itemID: String, userID: String,
                    completionBlock: ((ItemInformation?, Error?) -> Void)? = nil)
   {
-    guard let url = self.getUrl("item/" + itemID) else { return }
+    guard let url = self.getUrl("item/" + itemID + "/user/" + userID) else { return }
 
     self.performRequest(url: url) { (response, data, error) in
       var item: ItemInformation?

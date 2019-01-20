@@ -29,12 +29,13 @@ class ItemInteractionViewController: UIViewController {
   
   func loadItemInformation() {
     
-    BackendConnection().getItemInfo(itemID: scannedItemString) { itemInfo, error in
+    BackendConnection().getItemInfo(itemID: scannedItemString, userID: user!.userID!) { itemInfo, error in
       
       print(error as Any)
       
+      
       if error != nil {
-        self.dismiss(animated: false, completion: nil)
+        self.navigationController?.popToRootViewController(animated: true)
         return
       }
       
